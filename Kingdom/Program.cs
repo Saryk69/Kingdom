@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace Kingdom
 {
@@ -20,66 +22,65 @@ namespace Kingdom
                 "\nStart or Exit? -> y/n : ");
 
             var question = Console.ReadLine();
-            if (question == "y")
+            if(question == "y")
             {
-                int x;
+                int x = 0 ;
+                int y = 0 ;
                 bool token = false;
                 while(!token)
                 {
-                    
-                    if (!token)
+                    if(!token)
                     {
-                        Console.Write("How many rows?: ");
+                        Console.Write("How many levels?: ");
                         x = Convert.ToInt32(Console.ReadLine());
-                        if (x != null || x < 10)
+                        
+                        if(0 < x && x < 10)
                         {
                             token = true;
                         }
                         else
                         {
-                            Console.WriteLine("There must be less then 10 rows!!" + " Reapet again: ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Limit is for 1 - 9 ");
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                         }
-
                     }
                     else
                     {
-
-                        Console.WriteLine("Boi");
+                        Console.WriteLine("Źle");
                     }
 
                 }
-                // Console.Write("There must be less then 10 rows!!" +"Reapet again: ");
-                //Console.Write("How many rows?: ");
-                //int x = Convert.ToInt32(Console.ReadLine());
 
+                Console.Clear();
+                Game game = new Game(x);
 
-                Console.Write("How many columns?: ");
-                int y = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Który rząd usunąć?");
+                int cutTree = Convert.ToInt32(Console.ReadLine());
 
-                //Game game = new Game(x, y);
+                //Zakoncczenie akcji CutTree
+                GamePlay gamePlay = new GamePlay(cutTree);
+
             }
-            else if (question == "n")
+            else if(question == "n")
             {
                 Console.WriteLine("See you next time.");
                 Console.ReadLine();
-            }
-
-            
+            }         
         }
     }
 
     class Game 
-    { 
-        public Game(int a, int b) 
+    {
+        public static int[] board;
+        public Game(int a) 
         {
-
-            int[,] arr = new int[a, b];
-
-                //How many rowns
+            board = new int[a];
+            //How many rowns
             for (int i = 0; i < a; i++)
             {
                 // What ???? "Odstepy"
-                for (int k = b; k > i; k--)
+                for (int k = a; k > i; k--)
                 {
                     Console.Write(" ");
                 }
@@ -87,20 +88,33 @@ namespace Kingdom
                 {
                     if (i == 0)
                     {
-                        arr[i, j] = 1;
+                        board[i] = 1;
                     }
                     else
                     {
-                        //  1   1       1 - 1   1       
-                        //arr[i, j] = arr[i - 1, j] + arr[i - 1, j - 1];
-                        arr[i, j] = i + 1;
-                        
-                    }
-                    Console.Write(arr[i, j] + " ");
+                        board[i] = i + 1;             
+                    }                    
+                    Console.Write(board[i] + " ");
                 }
                 Console.WriteLine();
             }
-            Console.ReadLine();
+            Console.ReadLine();     
         }
     }
+
+    class GamePlay : Game
+    {
+        public GamePlay(int a) : base(a)
+        {
+            List<int> array = new List<int>(Enumerable.Range(1, 10));
+            int arrayCut; 
+                Console.Write(Convert.ToInt32(array[a - 1]));
+            Game gameCut = new Game(arrayCut([]));
+
+
+        }
+
+    }
+
+    
 }
