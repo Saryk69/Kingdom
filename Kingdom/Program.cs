@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Channels;
@@ -52,12 +53,15 @@ namespace Kingdom
 
                 }
 
+                
                 Console.Clear();
-                Game game = new Game(x);
+                GamePlatforme gamePlatforme = new GamePlatforme(x);
+                // End of creatPlatform
 
-                Console.WriteLine("Który rząd usunąć?");
+
+                ///Początek akcji CutTree
+                Console.Write("\nKtóry rząd usunąć? - ");
                 int cutTree = Convert.ToInt32(Console.ReadLine());
-
                 //Zakoncczenie akcji CutTree
                 GamePlay gamePlay = new GamePlay(cutTree);
 
@@ -70,16 +74,16 @@ namespace Kingdom
         }
     }
 
-    class Game 
+    class GamePlatforme
     {
         public static int[] board;
-        public Game(int a) 
+        public GamePlatforme(int a) 
         {
             board = new int[a];
-            //How many rowns
+            //How many rowns {x}
             for (int i = 0; i < a; i++)
             {
-                // What ???? "Odstepy"
+                //How many columns "Odstepy" {y}
                 for (int k = a; k > i; k--)
                 {
                     Console.Write(" ");
@@ -97,19 +101,57 @@ namespace Kingdom
                     Console.Write(board[i] + " ");
                 }
                 Console.WriteLine();
-            }
-            Console.ReadLine();     
+            }   
         }
     }
 
-    class GamePlay : Game
+    class GamePlay : GamePlatforme
     {
+        //              CutTree pod spodem
         public GamePlay(int a) : base(a)
         {
-            List<int> array = new List<int>(Enumerable.Range(1, 10));
-            int arrayCut; 
-                Console.Write(Convert.ToInt32(array[a - 1]));
-            Game gameCut = new Game(arrayCut([]));
+            Console.Clear();
+            //In this list will be the whole Tree("Platform") <after> cuting the platform in the specific location like: {3}
+            List<int> arrayTreeCut = new List<int>(Enumerable.Range(1, 9));
+
+            GamePlatforme arrayTree = new GamePlatforme(a);
+            
+
+            foreach (int numer in arrayTree)
+            {
+                if (arrayTree[a - 1] != numer)
+                {
+                    
+                }
+
+            }
+            //How many rowns {x}
+            for (int i = 0; i < a; i++)
+                {
+                    //How many columns "Odstepy" {y}
+                    for (int k = a; k > i; k--)
+                    {
+                        Console.Write(" ");
+                    }
+                    for (int j = 0; j <= i; j++)
+                    {
+                        if (i == 0)
+                        {
+                            board[i] = 1;
+                        }
+                        else
+                        {
+                            board[i] = i + 1;
+                        }
+                        Console.Write(board[i] + " ");
+                    }
+                    Console.WriteLine();
+                }
+
+
+
+
+
 
 
         }
